@@ -25,6 +25,9 @@ class Subjects(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     total_marks = models.IntegerField()
+    Semester_id=models.ForeignKey(
+            "Semesters", on_delete=models.CASCADE
+    )
     
 class Results(models.Model):
     id = models.AutoField(primary_key=True)

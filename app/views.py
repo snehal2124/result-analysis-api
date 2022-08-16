@@ -76,9 +76,9 @@ def subjectApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         subject_data = JSONParser().parse(request)
-        subject = Subjects.objects.get(id=subject_data['id'])
+        batch = Subjects.objects.get(id=subject_data['id'])
         subject_serializer = SubjectSerializer(
-            subject, data=subject_data)
+            batch, data=subject_data)
         if subject_serializer.is_valid():
             subject_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
@@ -105,9 +105,9 @@ def resultApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         result_data = JSONParser().parse(request)
-        result = Results.objects.get(id=result_data['id'])
+        batch = Results.objects.get(id=result_data['id'])
         result_serializer = ResultSerializer(
-         result, data=result_data)
+         batch, data=result_data)
         if result_serializer.is_valid():
             result_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
