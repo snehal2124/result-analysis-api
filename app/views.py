@@ -1,11 +1,12 @@
 import re
+from unittest import result
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from app.models import Batches, Specializations,Users,Students,Semesters
-from app.serializers import BatchSerializer, SpecializationSerializer, UserSerializer, StudentSerializer,SemesterSerializer
+from app.models import Batches, Specializations, Subjects, Results,Users,Students,Semesters
+from app.serializers import BatchSerializer, SpecializationSerializer, SubjectSerializer, ResultSerializer, UserSerializer, StudentSerializer,SemesterSerializer
 
 # Create your views here.
 
@@ -58,6 +59,63 @@ def specializationApi(request, id=0):
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
 
+@csrf_exempt
+def subjectApi(request, id=0):
+    if request.method == 'GET':
+        subjects = Subjects.objects.all()
+        subject_serializer = SubjectSerializer(
+            subjects, many=True)
+        return JsonResponse(subject_serializer.data, safe=False)
+    elif request.method == 'POST':
+        subject_data = JSONParser().parse(request)
+        subject_serializer = SubjectSerializer(
+            data=subject_data)
+        if subject_serializer.is_valid(raise_exception=True):
+            subject_serializer.save()
+            return JsonResponse("Added Successfully", safe=True)
+        return JsonResponse("Failed to Add", safe=False)
+    elif request.method == 'PUT':
+        subject_data = JSONParser().parse(request)
+        subject = Subjects.objects.get(id=subject_data['id'])
+        subject_serializer = SubjectSerializer(
+            subject, data=subject_data)
+        if subject_serializer.is_valid():
+            subject_serializer.save()
+            return JsonResponse("Updated Successfully", safe=False)
+        return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        subject = Subjects.objects.get(id=subject_data['id'])
+        subject.delete()
+        return JsonResponse("Deleted Successfully", safe=False)
+
+@csrf_exempt
+def resultApi(request, id=0):
+    if request.method == 'GET':
+        results = Results.objects.all()
+        result_serializer = ResultSerializer(
+            Results, many=True)
+        return JsonResponse(result_serializer.data, safe=False)
+    elif request.method == 'POST':
+        result_data = JSONParser().parse(request)
+        result_serializer = ResultSerializer(
+            data=result_data)
+        if result_serializer.is_valid(raise_exception=True):
+            result_serializer.save()
+            return JsonResponse("Added Successfully", safe=True)
+        return JsonResponse("Failed to Add", safe=False)
+    elif request.method == 'PUT':
+        result_data = JSONParser().parse(request)
+        result = Results.objects.get(id=result_data['id'])
+        result_serializer = ResultSerializer(
+         result, data=result_data)
+        if result_serializer.is_valid():
+            result_serializer.save()
+            return JsonResponse("Updated Successfully", safe=False)
+        return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        result = Results.objects.get(id=result_data['id'])
+        result.delete()
+        return JsonResponse("Deleted Successfully", safe=False)
 @csrf_exempt
 def userApi(request, id=0):
     if request.method == 'GET':
