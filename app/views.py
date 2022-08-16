@@ -4,8 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from app.models import Batches, Specializations
-from app.serializers import BatchSerializer, SpecializationSerializer
+from app.models import Batches, Specializations,Users,Students,Semesters
+from app.serializers import BatchSerializer, SpecializationSerializer, UserSerializer, StudentSerializer,SemesterSerializer
 
 # Create your views here.
 
@@ -57,3 +57,80 @@ def specializationApi(request, id=0):
             specialization_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
+
+@csrf_exempt
+def userApi(request, id=0):
+    if request.method == 'GET':
+        users = Users.objects.all()
+        users_serializer = UserSerializer(users, many=True)
+        return JsonResponse(users_serializer.data, safe=False)
+    elif request.method == 'POST':
+        user_data = JSONParser().parse(request)
+        users_serializer = UserSerializer(data=user_data)
+        if users_serializer.is_valid(raise_exception=True):
+            users_serializer.save()
+            return JsonResponse("Added Successfully", safe=False)
+        return JsonResponse("Failed to Add", safe=False)
+    elif request.method == 'PUT':
+        user_data = JSONParser().parse(request)
+        Batch = Users.objects.get(id=user_data['id'])
+        users_serializer = UserSerializer(user, data=user_data)
+        if users_serializer.is_valid():
+            users_serializer.save()
+            return JsonResponse("Updated Successfully", safe=False)
+        return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        user = Users.objects.get(id=user_data['id'])
+        user.delete()
+        return JsonResponse("Deleted Successfully", safe=False)
+
+
+@csrf_exempt
+def studentApi(request, id=0):
+    if request.method == 'GET':
+        students = Students.objects.all()
+        students_serializer = StudentSerializer(students, many=True)
+        return JsonResponse(students_serializer.data, safe=False)
+    elif request.method == 'POST':
+        student_data = JSONParser().parse(request)
+        students_serializer = StudentSerializer(data=student_data)
+        if students_serializer.is_valid(raise_exception=True):
+            students_serializer.save()
+            return JsonResponse("Added Successfully", safe=False)
+        return JsonResponse("Failed to Add", safe=False)
+    elif request.method == 'PUT':
+        student_data = JSONParser().parse(request)
+        student = Students.objects.get(id=student_data['id'])
+        students_serializer = StudentSerializer(student, data=student_data)
+        if students_serializer.is_valid():
+            students_serializer.save()
+            return JsonResponse("Updated Successfully", safe=False)
+        return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        student = Students.objects.get(id=student_data['id'])
+        student.delete()
+        return JsonResponse("Deleted Successfully", safe=False)
+
+@csrf_exempt
+def semesterApi(request, id=0):
+    if request.method == 'GET':
+        semesters = Semesters.objects.all()
+        semesters_serializer = SemesterSerializer(semesters, many=True)
+        return JsonResponse(semesters_serializer.data, safe=False)
+    elif request.method == 'POST':
+        semester_data = JSONParser().parse(request)
+        semesters_serializer = SemesterSerializer(data=semester_data)
+        if semesters_serializer.is_valid(raise_exception=True):
+            semesters_serializer.save()
+            return JsonResponse("Added Successfully", safe=False)
+        return JsonResponse("Failed to Add", safe=False)
+    elif request.method == 'PUT':
+        semster_data = JSONParser().parse(request)
+        batch = Semesters.objects.get(id=semester_data['id'])
+        semesters_serializer = SemesterSerializer(batch, data=semester_data)
+        if semesters_serializer.is_valid():
+            semesters_serializer.save()
+            return JsonResponse("Updated Successfully", safe=False)
+        return JsonResponse("Failed to Update", safe=False)
+
+

@@ -19,3 +19,34 @@ class Specializations(models.Model):
     code = models.CharField(max_length=100)
     no_of_years = models.IntegerField()
     no_of_semesters = models.IntegerField()
+
+
+class Users(models.Model):
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    mobile = models.IntegerField()
+    type = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+
+class Students(models.Model):
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    roll_no = models.IntegerField()
+    mobile = models.IntegerField()
+    email = models.EmailField(max_length=100)
+    address = models.CharField(max_length=100)
+
+class Semesters(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100)
+    specialization_id = models.ForeignKey(
+        "Specializations", on_delete=models.CASCADE
+    )
+    batch_id = models.ForeignKey(
+        "Batches", on_delete=models.CASCADE
+    )
