@@ -1,13 +1,13 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
-
 
 class Batches(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    start_year = models.DateField()
-    end_year = models.DateField()
+    start_year = models.IntegerField(validators=[MaxValueValidator(3000), MinValueValidator(1900)])
+    end_year = models.IntegerField(validators=[MaxValueValidator(3000), MinValueValidator(1900)])
     code = models.CharField(max_length=100)
     specialization_id = models.ForeignKey(
         "Specializations", on_delete=models.CASCADE

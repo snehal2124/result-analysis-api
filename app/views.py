@@ -25,12 +25,16 @@ def batchApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         batch_data = JSONParser().parse(request)
-        batch = Batches.objects.get(id=batch_data['id'])
+        batch = Batches.objects.get(id=id)
         batches_serializer = BatchSerializer(batch, data=batch_data)
         if batches_serializer.is_valid():
             batches_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        batch = Batches.objects.get(id=id)
+        batch.delete()
+        return JsonResponse("Delete Successfully", safe=False)
 
 
 @csrf_exempt
@@ -50,13 +54,19 @@ def specializationApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         specialization_data = JSONParser().parse(request)
-        batch = Specializations.objects.get(id=specialization_data['id'])
+        batch = Specializations.objects.get(id=id)
         specialization_serializer = SpecializationSerializer(
             batch, data=specialization_data)
         if specialization_serializer.is_valid():
             specialization_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        print('sdsdsdsd===================')
+        print(id)
+        specialization = Specializations.objects.get(id=id)
+        specialization.delete()
+        return JsonResponse("Delete Successfully", safe=False)
 
 @csrf_exempt
 def userApi(request, id=0):
