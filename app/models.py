@@ -20,34 +20,6 @@ class Specializations(models.Model):
     no_of_years = models.IntegerField()
     no_of_semesters = models.IntegerField()
 
-class Subjects(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100)
-    total_marks = models.IntegerField()
-    Semester_id=models.ForeignKey(
-            "Semesters", on_delete=models.CASCADE
-    )
-    
-class Results(models.Model):
-    id = models.AutoField(primary_key=True)
-    student_id = models.CharField(max_length=100)
-    batch_id = models.CharField(max_length=100)
-    semester_id = models.IntegerField()
-    subject_id = models.ForeignKey(
-        "Subjects", on_delete=models.CASCADE
-    )
-    marks_obtained = models.IntegerField()
-
-    
-
-    
-
-
-   
-
-    
-
 class Users(models.Model):
     id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
@@ -77,3 +49,27 @@ class Semesters(models.Model):
     batch_id = models.ForeignKey(
         "Batches", on_delete=models.CASCADE
     )
+
+    
+class Subjects(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100)
+    total_marks=models.IntegerField()
+    semester_id = models.ForeignKey(
+        "Semesters", on_delete=models.CASCADE
+    )
+    
+
+class Results(models.Model):
+    id = models.AutoField(primary_key=True)
+    batch_id = models.ForeignKey(
+        "Batches", on_delete=models.CASCADE
+    )
+    student_id = models.ForeignKey(
+        "Students", on_delete=models.CASCADE
+    )
+    semester_id = models.ForeignKey(
+        "Semesters", on_delete=models.CASCADE
+    )
+    marks_obtained = models.IntegerField()

@@ -1,5 +1,6 @@
+from dataclasses import field
 from rest_framework import serializers
-from app.models import Batches,  Specializations, Users, Students,Semesters, Subjects, Results
+from app.models import Batches,  Specializations, Users, Students,Semesters,Subjects,Results
    
 class BatchSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,6 +54,21 @@ class StudentSerializer(serializers.ModelSerializer):
             'address',
         )
 
+        
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subjects
+        fields = (
+             'id',
+             'name',
+             'code',
+             'total_marks',
+             'semester_id',
+        )
+
+        
 class SemesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semesters
@@ -62,16 +78,6 @@ class SemesterSerializer(serializers.ModelSerializer):
             'code',
             'batch_id',
             'specialization_id',
-        )        
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subjects
-        fields = (
-            'id',
-            'name',
-            'code',
-            'total_marks'  
-            
         )
 
 class ResultSerializer(serializers.ModelSerializer):
@@ -80,9 +86,7 @@ class ResultSerializer(serializers.ModelSerializer):
         fields = (
             'id', 
             'student_id',
-            'batch_id'
-            'semister_id',
-            'subject_id',
-            'marks_obtained'  
-            
-        )
+            'batch_id',
+            'semester_id',
+            'marks_obtained',
+        )      
