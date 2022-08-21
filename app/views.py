@@ -87,14 +87,14 @@ def userApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         user_data = JSONParser().parse(request)
-        Batch = Users.objects.get(id=user_data['id'])
-        users_serializer = UserSerializer(user, data=user_data)
+        batch = Users.objects.get(id=id)
+        users_serializer = UserSerializer(batch, data=user_data)
         if users_serializer.is_valid():
             users_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
     elif request.method == 'DELETE':
-        user = Users.objects.get(id=user_data['id'])
+        user = Users.objects.get(id=id)
         user.delete()
         return JsonResponse("Deleted Successfully", safe=False)
 
@@ -114,14 +114,14 @@ def studentApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         student_data = JSONParser().parse(request)
-        student = Students.objects.get(id=student_data['id'])
+        student = Students.objects.get(id=id)
         students_serializer = StudentSerializer(student, data=student_data)
         if students_serializer.is_valid():
             students_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
     elif request.method == 'DELETE':
-        student = Students.objects.get(id=student_data['id'])
+        student = Students.objects.get(id=id)
         student.delete()
         return JsonResponse("Deleted Successfully", safe=False)
 
@@ -140,12 +140,18 @@ def semesterApi(request, id=0):
         return JsonResponse("Failed to Add", safe=False)
     elif request.method == 'PUT':
         semester_data = JSONParser().parse(request)
-        batch = Semesters.objects.get(id=semester_data['id'])
+        batch = Semesters.objects.get(id=id)
         semesters_serializer = SemesterSerializer(batch, data=semester_data)
         if semesters_serializer.is_valid():
             semesters_serializer.save()
             return JsonResponse("Updated Successfully", safe=False)
         return JsonResponse("Failed to Update", safe=False)
+    elif request.method == 'DELETE':
+        semester = Semesters.objects.get(id=id)
+        semester.delete()
+        return JsonResponse("Delete Successfully", safe=False)
+
+
 
 
 @csrf_exempt
