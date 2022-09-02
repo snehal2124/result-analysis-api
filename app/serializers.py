@@ -3,6 +3,7 @@ from rest_framework import serializers
 from app.models import Batches, Specializations, Students, Semesters, Subjects, Results
 from app.authmodels import Users
 
+
 class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Batches
@@ -81,6 +82,12 @@ class SemesterSerializer(serializers.ModelSerializer):
 
 
 class ResultSerializer(serializers.ModelSerializer):
+    batch_id = BatchSerializer(many=False, read_only=True)
+    student_id = StudentSerializer(many=False, read_only=True)
+    semester_id = SemesterSerializer(many=False, read_only=True)
+    subject_id = SubjectSerializer(many=False, read_only=True)
+    specialization_id = SpecializationSerializer(many=False, read_only=True)
+
     class Meta:
         model = Results
         fields = (
@@ -89,4 +96,6 @@ class ResultSerializer(serializers.ModelSerializer):
             'batch_id',
             'semester_id',
             'marks_obtained',
+            'subject_id',
+            'specialization_id'
         )

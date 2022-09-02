@@ -1,6 +1,8 @@
+from turtle import Turtle
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
+
 
 class Batches(models.Model):
     id = models.AutoField(primary_key=True)
@@ -21,6 +23,7 @@ class Specializations(models.Model):
     code = models.CharField(max_length=100, unique=True)
     no_of_years = models.IntegerField()
     no_of_semesters = models.IntegerField()
+
 
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
@@ -67,5 +70,8 @@ class Results(models.Model):
     )
     subject_id = models.ForeignKey(
         "Subjects", on_delete=models.CASCADE
+    )
+    specialization_id = models.ForeignKey(
+        "Specializations", on_delete=models.CASCADE
     )
     marks_obtained = models.IntegerField()
