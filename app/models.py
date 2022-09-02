@@ -9,7 +9,7 @@ class Batches(models.Model):
         validators=[MaxValueValidator(3000), MinValueValidator(1900)])
     end_year = models.IntegerField(
         validators=[MaxValueValidator(3000), MinValueValidator(1900)])
-    code = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, unique=True)
     specialization_id = models.ForeignKey(
         "Specializations", on_delete=models.CASCADE
     )
@@ -18,7 +18,7 @@ class Batches(models.Model):
 class Specializations(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, unique=True)
     no_of_years = models.IntegerField()
     no_of_semesters = models.IntegerField()
 
@@ -64,5 +64,8 @@ class Results(models.Model):
     )
     semester_id = models.ForeignKey(
         "Semesters", on_delete=models.CASCADE
+    )
+    subject_id = models.ForeignKey(
+        "Subjects", on_delete=models.CASCADE
     )
     marks_obtained = models.IntegerField()
