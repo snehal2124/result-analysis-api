@@ -1,6 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from django.db.models import Avg
 
 from app.models import Batches, Specializations, Students, Semesters, Subjects, Results
 from app.authmodels import Users
@@ -178,11 +179,23 @@ def subjectApi(request, id=0):
 
 
 @csrf_exempt
+def bulkResultApi(request):
+    if request.method == 'POST':
+        result_data = JSONParser().parse(request)
+        for i in list:
+            results_serializer = ResultSerializer(data=result_data)
+            if results_serializer.is_valid(raise_exception=True):
+                results_serializer.save()
+        return JsonResponse("Added Successfully", safe=False)
+
+@csrf_exempt
 def resultApi(request, id=0):
     if request.method == 'GET':
-        results = Results.objects.all()
-        results_serializer = ResultSerializer(results, many=True)
-        return JsonResponse(results_serializer.data, safe=False)
+        # results = Results.objects.all()
+        results = Results.objects.values('subject_id').annotate(avg=Avg('marks_obtained'))
+        print(results)
+        # results_serializer = ResultSerializer(results, many=True)
+        return JsonResponse(list(results), safe=False)
     elif request.method == 'POST':
         result_data = JSONParser().parse(request)
         results_serializer = ResultSerializer(data=result_data)
