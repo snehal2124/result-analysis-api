@@ -1,12 +1,11 @@
-import re
-from unittest import result
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 
-from app.models import Batches, Specializations, Users,Students,Semesters,Subjects,Results
-from app.serializers import BatchSerializer, SpecializationSerializer,  UserSerializer, StudentSerializer,SemesterSerializer,SubjectSerializer,ResultSerializer
+from app.models import Batches, Specializations, Students, Semesters, Subjects, Results
+from app.authmodels import Users
+from app.authserializers import UserSerializer
+from app.serializers import BatchSerializer, SpecializationSerializer,  StudentSerializer, SemesterSerializer, SubjectSerializer, ResultSerializer
 
 # Create your views here.
 
@@ -70,8 +69,6 @@ def specializationApi(request, id=0):
         return JsonResponse("Delete Successfully", safe=False)
 
 
-
-
 @csrf_exempt
 def userApi(request, id=0):
     if request.method == 'GET':
@@ -125,6 +122,7 @@ def studentApi(request, id=0):
         student.delete()
         return JsonResponse("Deleted Successfully", safe=False)
 
+
 @csrf_exempt
 def semesterApi(request, id=0):
     if request.method == 'GET':
@@ -152,8 +150,6 @@ def semesterApi(request, id=0):
         return JsonResponse("Delete Successfully", safe=False)
 
 
-
-
 @csrf_exempt
 def subjectApi(request, id=0):
     if request.method == 'GET':
@@ -179,6 +175,7 @@ def subjectApi(request, id=0):
         subject = Subjects.objects.get(id=subject_data['id'])
         subject.delete()
         return JsonResponse("Deleted Successfully", safe=False)
+
 
 @csrf_exempt
 def resultApi(request, id=0):

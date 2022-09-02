@@ -1,7 +1,8 @@
 from dataclasses import field
 from rest_framework import serializers
-from app.models import Batches,  Specializations, Users, Students,Semesters,Subjects,Results
-   
+from app.models import Batches, Specializations, Students, Semesters, Subjects, Results
+from app.authmodels import Users
+
 class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Batches
@@ -26,20 +27,20 @@ class SpecializationSerializer(serializers.ModelSerializer):
             'no_of_semesters'
         )
 
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Users
+#         fields = (
+#             'id',
+#             'first_name',
+#             'last_name',
+#             'email',
+#             'mobile',
+#             'password',
+#             'address',
+#             'type'
+#         )
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Users
-        fields = (
-            'id',
-            'first_name',
-            'last_name',
-            'email',
-            'mobile',
-            'password',
-            'address', 
-            'type'
-        )
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,21 +55,19 @@ class StudentSerializer(serializers.ModelSerializer):
             'address',
         )
 
-        
-
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subjects
         fields = (
-             'id',
-             'name',
-             'code',
-             'total_marks',
-             'semester_id',
+            'id',
+            'name',
+            'code',
+            'total_marks',
+            'semester_id',
         )
 
-        
+
 class SemesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semesters
@@ -80,13 +79,14 @@ class SemesterSerializer(serializers.ModelSerializer):
             'specialization_id',
         )
 
+
 class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Results
         fields = (
-            'id', 
+            'id',
             'student_id',
             'batch_id',
             'semester_id',
             'marks_obtained',
-        )      
+        )
