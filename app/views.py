@@ -72,7 +72,7 @@ def specializationApi(request, id=0):
 @csrf_exempt
 def userApi(request, id=0):
     if request.method == 'GET':
-        users = Users.objects.all(type="staff")
+        users = Users.objects.all()
         users_serializer = UserSerializer(users, many=True)
         return JsonResponse(users_serializer.data, safe=False)
     elif request.method == 'POST':
