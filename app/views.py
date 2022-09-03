@@ -6,7 +6,7 @@ from django.db.models import Avg
 from app.models import Batches, Specializations, Students, Semesters, Subjects, Results
 from app.authmodels import Users
 from app.authserializers import UserSerializer
-from app.serializers import BatchSerializer, SpecializationSerializer,  StudentSerializer, SemesterSerializer, SubjectSerializer, ResultSerializer
+from app.serializers import BatchSerializer, SpecializationSerializer,  StudentSerializer, SemesterSerializer, SubjectSerializer, ResultSerializer, GetResultSerializer
 
 # Create your views here.
 
@@ -193,7 +193,7 @@ def bulkResultApi(request):
 def resultApi(request, id=0):
     if request.method == 'GET':
         results = Results.objects.all()
-        results_serializer = ResultSerializer(results, many=True)
+        results_serializer = GetResultSerializer(results, many=True)
         return JsonResponse(results_serializer.data, safe=False)
     elif request.method == 'POST':
         result_data = JSONParser().parse(request)
