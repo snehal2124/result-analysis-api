@@ -16,4 +16,6 @@ urlpatterns = [
     re_path(r'^results/([0-9]+)$', views.resultApi),
     re_path(r'^semesters$', views.semesterApi),
     re_path(r'^semesters/([0-9]+)$', views.semesterApi),
+    re_path(r'^result-batch', views.batchResult),
+    re_path(r'^result-subject', views.subjectResult),
 ]

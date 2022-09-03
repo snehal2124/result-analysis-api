@@ -188,14 +188,13 @@ def bulkResultApi(request):
                 results_serializer.save()
         return JsonResponse("Added Successfully", safe=False)
 
+
 @csrf_exempt
 def resultApi(request, id=0):
     if request.method == 'GET':
-        # results = Results.objects.all()
-        results = Results.objects.values('subject_id__name', 'subject_id__total_marks').annotate(avg=Avg('marks_obtained'))
-        print(results)
-        # results_serializer = ResultSerializer(results, many=True)
-        return JsonResponse(list(results), safe=False)
+        results = Results.objects.all()
+        results_serializer = ResultSerializer(results, many=True)
+        return JsonResponse(results_serializer.data, safe=False)
     elif request.method == 'POST':
         result_data = JSONParser().parse(request)
         results_serializer = ResultSerializer(data=result_data)
@@ -215,3 +214,26 @@ def resultApi(request, id=0):
         result = Students.objects.get(id=result_data['id'])
         result.delete()
         return JsonResponse("Deleted Successfully", safe=False)
+
+
+@csrf_exempt
+def batchResult(request, id=0):
+    if request.method == 'GET':
+        specialization_id = request.GET.get('specialization', '')
+        batch_id = request.GET.get('batch', '')
+        semester_id = request.GET.get('semester', '')
+        subject_id = request.GET.get('subject', '')
+        # if specialization_id == 'all':
+        results = Results.objects.values(
+            'batch_id__name').annotate(avg=Avg('marks_obtained'))
+        print(results)
+        return JsonResponse(list(results), safe=False)
+
+
+@csrf_exempt
+def subjectResult(request, id=0):
+    if request.method == 'GET':
+        results = Results.objects.values(
+            'subject_id__name', 'subject_id__total_marks').annotate(avg=Avg('marks_obtained'))
+        print(results)
+        return JsonResponse(list(results), safe=False)
