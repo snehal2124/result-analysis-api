@@ -11,5 +11,5 @@ class Users(AbstractUser):
     password = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
 
-    USERNAME_FIELD = 'email'
+    username = 'none'
     REQUIRED_FIELDS = []
