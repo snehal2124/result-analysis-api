@@ -220,20 +220,28 @@ def resultApi(request, id=0):
 def batchResult(request, id=0):
     if request.method == 'GET':
         specialization_id = request.GET.get('specialization', '')
-        batch_id = request.GET.get('batch', '')
-        semester_id = request.GET.get('semester', '')
-        subject_id = request.GET.get('subject', '')
-        # if specialization_id == 'all':
-        results = Results.objects.values(
-            'batch_id__name').annotate(avg=Avg('marks_obtained'))
-        print(results)
+        if specialization_id == 'all':
+            results = Results.objects.values(
+                'batch_id__name').annotate(avg=Avg('marks_obtained'))
+            print(results)
+        else:
+            results = Results.objects.filter(specialization_id=specialization_id).values(
+                'batch_id__name', 'specialization_id').annotate(avg=Avg('marks_obtained'))
+            print(results)
         return JsonResponse(list(results), safe=False)
 
 
 @csrf_exempt
 def subjectResult(request, id=0):
     if request.method == 'GET':
-        results = Results.objects.values(
-            'subject_id__name', 'subject_id__total_marks').annotate(avg=Avg('marks_obtained'))
-        print(results)
+        specialization_id = request.GET.get('specialization', '')
+        if specialization_id == 'all':
+            results = Results.objects.values(
+                'subject_id__name', 'subject_id__total_marks').annotate(avg=Avg('marks_obtained'))
+            print(results)
+        else:
+            results = Results.objects.filter(specialization_id=specialization_id).values(
+                'subject_id__name', 'subject_id__total_marks').annotate(avg=Avg('marks_obtained'))
+            print(results)
+
         return JsonResponse(list(results), safe=False)
