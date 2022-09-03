@@ -28,21 +28,6 @@ class SpecializationSerializer(serializers.ModelSerializer):
             'no_of_semesters'
         )
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Users
-#         fields = (
-#             'id',
-#             'first_name',
-#             'last_name',
-#             'email',
-#             'mobile',
-#             'password',
-#             'address',
-#             'type'
-#         )
-
-
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Students
@@ -81,13 +66,25 @@ class SemesterSerializer(serializers.ModelSerializer):
         )
 
 
-class ResultSerializer(serializers.ModelSerializer):
+class GetResultSerializer(serializers.ModelSerializer):
     batch_id = BatchSerializer(many=False, read_only=True)
     student_id = StudentSerializer(many=False, read_only=True)
     semester_id = SemesterSerializer(many=False, read_only=True)
     subject_id = SubjectSerializer(many=False, read_only=True)
     specialization_id = SpecializationSerializer(many=False, read_only=True)
 
+    class Meta:
+        model = Results
+        fields = (
+            'id',
+            'student_id',
+            'batch_id',
+            'semester_id',
+            'marks_obtained',
+            'subject_id',
+            'specialization_id'
+        )
+class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Results
         fields = (

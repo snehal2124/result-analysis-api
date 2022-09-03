@@ -192,7 +192,7 @@ def bulkResultApi(request):
 def resultApi(request, id=0):
     if request.method == 'GET':
         # results = Results.objects.all()
-        results = Results.objects.values('subject_id').annotate(avg=Avg('marks_obtained'))
+        results = Results.objects.values('subject_id__name', 'subject_id__total_marks').annotate(avg=Avg('marks_obtained'))
         print(results)
         # results_serializer = ResultSerializer(results, many=True)
         return JsonResponse(list(results), safe=False)
